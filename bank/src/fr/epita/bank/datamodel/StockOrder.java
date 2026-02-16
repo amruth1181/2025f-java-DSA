@@ -10,7 +10,7 @@ package fr.epita.bank.datamodel;
  *  *
  * </ul>
  */
-public class StockOrder {
+public class StockOrder extends Stock {
 
     private Integer id;
     private Integer quantity;
@@ -19,7 +19,6 @@ public class StockOrder {
 
     private Stock stock;
     private InvestmentAccount investmentAccount;
-
 
     public Integer getId() {
         return id;
