@@ -2,6 +2,7 @@ package fr.epita.bank.execution;
 
 import fr.epita.bank.datamodel.*;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -13,6 +14,8 @@ public class Main {
     public static double test;
 
     public static void main(String[] args) {
+
+
         System.out.println("Welcome to the bank application!");
 
         Scanner scanner = new Scanner(System.in);
@@ -68,7 +71,10 @@ public class Main {
         System.out.println("final balance:" + savingsAccount.getBalance());
 
 
+
         scanner.close();
+
+
 
 
     }
