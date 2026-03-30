@@ -2,6 +2,7 @@ package fr.epita.biostat.tests;
 
 import fr.epita.biostat.datamodel.BioStatEntry;
 import fr.epita.biostat.services.CSVService;
+import fr.epita.biostat.services.StatService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,11 +25,7 @@ public class TestFileInput {
         System.out.println("loaded " + entries.size() + " entries");
 
         //do the average age
-        double totalAge = 0;
-        for (BioStatEntry entry: entries){
-            totalAge = totalAge + entry.getAge();
-        }
-        double averageAge = totalAge/entries.size();
+        double averageAge = StatService.getAverageAge(entries);
         System.out.println(averageAge);
 
         //do the average age with stream approach
@@ -94,5 +91,7 @@ public class TestFileInput {
         System.out.println(countByAgeClasses);
 
     }
+
+
 
 }
