@@ -2,9 +2,14 @@ package fr.epita.biostat.services;
 
 import fr.epita.biostat.datamodel.BioStatEntry;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class BioStatDataService {
 
@@ -121,8 +126,17 @@ public class BioStatDataService {
 
 
 
-    private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+    private static Connection getConnection() throws SQLException, IOException {
+
+        File file = new File("conf.properties");
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(file));
+
+        return DriverManager.getConnection(
+                properties.getProperty("db.url"),
+                properties.getProperty("db.user"),
+                properties.getProperty("db.password")
+        );
     }
 }
 
