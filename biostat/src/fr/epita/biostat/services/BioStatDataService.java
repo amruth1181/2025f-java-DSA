@@ -9,7 +9,29 @@ import java.util.List;
 public class BioStatDataService {
 
 
+    private static BioStatDataService instance;
 
+    public static BioStatDataService getInstance() throws SQLException {
+        if (instance == null){
+            instance = new BioStatDataService();
+        }
+        return instance;
+    }
+
+    private BioStatDataService() throws SQLException {
+        try (Connection connection = getConnection()) {
+
+            PreparedStatement createTableStatement = connection.prepareStatement("""
+                CREATE TABLE BIOSTATS (
+                    name varchar(255), 
+                    sex char, 
+                    age int
+                )                                                            
+                """);
+            createTableStatement.execute();
+        }
+
+    }
 
 
     public void save(BioStatEntry entry) throws SQLException {
