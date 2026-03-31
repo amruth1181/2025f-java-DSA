@@ -1,6 +1,7 @@
 package fr.epita.biostat.services;
 
 import fr.epita.biostat.datamodel.BioStatEntry;
+import fr.epita.biostat.services.exceptions.DeleteFailedException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -111,13 +112,15 @@ public class BioStatDataService {
     }
 
 
-    public void delete(BioStatEntry entry) throws SQLException {
+    public void delete(BioStatEntry entry) throws DeleteFailedException {
         try (Connection connection = getConnection()) {
             PreparedStatement deleteStatement = connection.prepareStatement("""
                                     DELETE FROM BIOSTATS where name='thomas'
                     """);
 
             deleteStatement.execute();
+        } catch (SQLException e) {
+            throw new DeleteFailedException(e);
         }
 
 
@@ -126,16 +129,13 @@ public class BioStatDataService {
 
 
 
-    private static Connection getConnection() throws SQLException, IOException {
+    private static Connection getConnection() throws SQLException {
 
-        File file = new File("conf.properties");
-        Properties properties = new Properties();
-        properties.load(new FileInputStream(file));
-
+        ConfigurationService service = ConfigurationService.getInstance();
         return DriverManager.getConnection(
-                properties.getProperty("db.url"),
-                properties.getProperty("db.user"),
-                properties.getProperty("db.password")
+                service.getValue("db.url"),
+                service.getValue("db.user"),
+                service.getValue("db.password")
         );
     }
 }
